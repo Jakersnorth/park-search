@@ -88,11 +88,11 @@ func main() {
 		table += "</tbody></table>"
 		c.Data(http.StatusOK, "text/html", []byte(table))
 	})
-/*
+
 	router.GET("/query2", func(c *gin.Context) {
 		table := "<table class='table'><thead><tr>"
 		// put your query here
-		rows, err := db.Query("SELECT person.firstName, person.favoriteGenre, album.genre FROM person JOIN favorite ON person.personId = favorite.personId JOIN song ON favorite.songId = song.songId JOIN album ON song.albumId = album.albumId WHERE album.genre <> person.favoriteGenre") // <--- EDIT THIS LINE
+		rows, err := db.Query("SELECT trailName AS Trails FROM trail JOIN favorite ON trail.trailId = favorite.trailId JOIN usr ON favorite.username = usr.username WHERE usr.username = 'rdiaz0'")
 		if err != nil {
 			// careful about returning errors to the user!
 			c.AbortWithError(http.StatusInternalServerError, err)
@@ -111,17 +111,14 @@ func main() {
 		table += "</thead><tbody>"
 		// columns
 		var name string
-		var favoriteGenre string
-		var songGenre string
 		for rows.Next() {
-			rows.Scan(&name, &favoriteGenre, &songGenre) // put columns here prefaced with &
-			table += "<tr><td>" + name + "</td><td>" + favoriteGenre + "</td><td>" + songGenre + "</td></tr>" // <--- EDIT THIS LINE
-		}
+			rows.Scan(&name) // put columns here prefaced with &
+			table += "<tr><td>" + name + "</td></tr>" 
 		// finally, close out the body and table
 		table += "</tbody></table>"
 		c.Data(http.StatusOK, "text/html", []byte(table))
 	})
-
+/*
 	router.GET("/query3", func(c *gin.Context) {
 		table := "<table class='table'><thead><tr>"
 		// put your query here
