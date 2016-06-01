@@ -1,1 +1,1 @@
-web: park-search
+web: park_search
