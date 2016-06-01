@@ -58,7 +58,7 @@ func main() {
 	router.GET("/query1", func(c *gin.Context) {
 		table := "<table class='table'><thead><tr>"
 		// put your query here
-		rows, err := db.Query("SELECT person.firstName, song.title, song.length FROM favorite JOIN person ON person.personId = favorite.personId JOIN song ON song.songId = favorite.songId WHERE song.length = (SELECT max(song.length) FROM song)") // <--- EDIT THIS LINE
+		rows, err := db.Query("SELECT name FROM park WHERE id = 3")
 		if err != nil {
 			// careful about returning errors to the user!
 			c.AbortWithError(http.StatusInternalServerError, err)
@@ -76,21 +76,19 @@ func main() {
 		// once you've added all the columns in, close the header
 		table += "</thead><tbody>"
 		// declare all your RETURNED columns here
-		var name string      // <--- EDIT THESE LINES
-		var title string //<--- ^^^^
-		var length int
+		var name string
 		for rows.Next() {
 			// assign each of them, in order, to the parameters of rows.Scan.
 			// preface each variable with &
-			rows.Scan(&name, &title, &length) // <--- EDIT THIS LINE
+			rows.Scan(&name)
 			// can't combine ints and strings in Go. Use strconv.Itoa(int) instead
-			table += "<tr><td>" + name + "</td><td>" + title + "</td><td>" + strconv.Itoa(length) + "</td></tr>" // <--- EDIT THIS LINE
+			table += "<tr><td>" + name + "</td></tr>"
 		}
 		// finally, close out the body and table
 		table += "</tbody></table>"
 		c.Data(http.StatusOK, "text/html", []byte(table))
 	})
-
+/*
 	router.GET("/query2", func(c *gin.Context) {
 		table := "<table class='table'><thead><tr>"
 		// put your query here
@@ -187,7 +185,7 @@ func main() {
 		// instead of HTML, we are going to return a JSON file
 		c.JSON(http.StatusOK, gin.H{"username": resultUser})
 	})
-
+*/
 	// NO code should go after this line. it won't ever reach that point
 	router.Run(":" + port)
 }
