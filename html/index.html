@@ -13,12 +13,6 @@
         <header>
             <h1>Welcome to Back to Park Search Richard</h1>
         </header>
-        <div class="login-inputs">
-          <span>Username: <input type="text" id="username"/></span>
-          <span>Password: <input type="text" id="password"/></span>
-          <button id="login">Login</button>
-          <span id="result"></span>
-        </div>
         <div class="content" id="results">
         	<div class = "row">
         		<div class="col-md-12">
@@ -35,6 +29,14 @@
                     </p>
                 </div>
             </div>
+        </div>
+        <h3>Write a new review for Gas Works Park</h3>
+        <div class="review-inputs">
+          <span>Description: <input type="text" id="description"/></span>
+          <span>Rating(0-5): <input type="number" min="0" max="5" id="rating"/></span>
+          <span>Warnings: <input type="text" id="warnings"/></span>
+          <button id="submit">Submit</button>
+          <span id="result"></span>
         </div>
     </body>
 </html>

@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"fmt"
 	//"strconv"
 
 	// this allows us to run our web server
@@ -151,39 +152,23 @@ func main() {
 		table += "</tbody></table>"
 		c.Data(http.StatusOK, "text/html", []byte(table))
 	})
-
-	router.POST("/login", func(c *gin.Context) {
+*/
+	router.POST("/submit", func(c *gin.Context) {
 		// this is meant for SQL injection examples ONLY.
 		// Don't copy this for use in an actual environment, even if you do stop SQL injection
-		username := c.PostForm("username")
-		password := c.PostForm("password")
+		description := c.PostForm("description")
+		rating := c.PostForm("rating")
+		warnings := c.PostForm("warnings")
 
-		rows, err := db.Query("SELECT usr.name FROM usr WHERE usr.name = $1 AND usr.password = $2;", username, password)
+		stmt, err := db.Prepare("INSERT INTO review (username, parkId, postdate, detail, rating, warning) VALUES ('rdiaz0', 3, '2016-06-01', $1, $2, $3);")
+		res, err := stmt.Exec(description, rating, warnings)
 		if err != nil {
 			c.AbortWithError(http.StatusInternalServerError, err)
 			return
 		}
-		cols, _ := rows.Columns()
-		if len(cols) == 0 {
-			c.AbortWithStatus(http.StatusNoContent)
-			return
-		}
-
-		rowCount := 0
-		var resultUser string
-		for rows.Next() {
-			rows.Scan(&resultUser)
-			rowCount++
-		}
-		// quick way to check if the user logged in properly
-		if rowCount == 0 {
-			c.AbortWithStatus(http.StatusNoContent)
-			return
-		}
-		// instead of HTML, we are going to return a JSON file
-		c.JSON(http.StatusOK, gin.H{"username": resultUser})
+		fmt.Println(res)
 	})
-*/
+
 	// NO code should go after this line. it won't ever reach that point
 	router.Run(":" + port)
 }
