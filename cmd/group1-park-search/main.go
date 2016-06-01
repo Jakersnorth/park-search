@@ -114,6 +114,7 @@ func main() {
 		for rows.Next() {
 			rows.Scan(&name) // put columns here prefaced with &
 			table += "<tr><td>" + name + "</td></tr>" 
+		}
 		// finally, close out the body and table
 		table += "</tbody></table>"
 		c.Data(http.StatusOK, "text/html", []byte(table))
