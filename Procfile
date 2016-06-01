@@ -1,1 +1,1 @@
-web: lab7
+web: park-search
