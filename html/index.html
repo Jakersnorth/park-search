@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 6 + 7</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="static/main.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
+        <script src="static/main.js"></script>
+    </head>
+    <body>
+        <!-- I apologize to all the UI designers -->
+        <header>
+            <h1>Your site is up and running!</h1>
+            <h3>Welcome the wonderful world of me!</h3>
+        </header>
+        <div class="login-inputs">
+          <span>Username: <input type="text" id="username"/></span>
+          <span>Password: <input type="text" id="password"/></span>
+          <button id="login">Login</button>
+          <span id="result"></span>
+        </div>
+        <div class="content" id="results">
+            <div class="row">
+                <div class="col-md-4" id="firstQuery">
+                    <p>
+                        Who has the longest favorite song?
+                    </p>
+                </div>
+                <div class="col-md-4" id="secondQuery">
+                    <p>
+                        Which people have a favorite song in a genre different then their favorite genre?
+                    </p>
+                </div>
+                <div class="col-md-4" id="thirdQuery">
+                    <p>
+                        Which artists have produced a country album?
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
