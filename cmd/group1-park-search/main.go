@@ -58,7 +58,7 @@ func main() {
 	router.GET("/query1", func(c *gin.Context) {
 		table := "<table class='table'><thead><tr>"
 		// put your query here
-		rows, err := db.Query("SELECT name FROM park WHERE id = 3")
+		rows, err := db.Query("SELECT name AS Parks FROM park NATURAL JOIN favorite NATURAL JOIN usr WHERE usr.username = 'rdiaz0'")
 		if err != nil {
 			// careful about returning errors to the user!
 			c.AbortWithError(http.StatusInternalServerError, err)
