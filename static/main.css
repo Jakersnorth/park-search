@@ -6,6 +6,9 @@ h1, h3, p, #results {
     text-align: center;
     margin: 0 0 0 0;
 }
+hr {
+    color: black;
+}
 .login-inputs {
   margin: 1em;
 }
