@@ -54,3 +54,7 @@ INSERT INTO Feature VALUES
   ('Wildflowers/Meadows', 'Meadows often host a multitude of wildlife, providing areas for courtship displays, nesting, food gathering and sometimes sheltering.'),
   ('River', 'A natural flowing watercourse, usually freshwater, flowing towards an ocean, sea, lake or another river.'),
   ('Mountain Views', 'A large landform that stretches above the surrounding land in a limited area, usually in the form of a peak.');
+
+SELECT addNewFavorite('rdiaz0', 3, null);
+
+SELECT addNewFavorite('rdiaz0', null, 1);

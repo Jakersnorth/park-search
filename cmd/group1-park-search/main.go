@@ -58,10 +58,8 @@ func main() {
 
 	router.GET("/query1", func(c *gin.Context) {
 		table := "<table class='table'><thead><tr>"
-		// put your query here
 		rows, err := db.Query("SELECT name AS Parks FROM park NATURAL JOIN favorite NATURAL JOIN usr WHERE usr.username = 'rdiaz0'")
 		if err != nil {
-			// careful about returning errors to the user!
 			c.AbortWithError(http.StatusInternalServerError, err)
 			return
 		}
@@ -74,13 +72,9 @@ func main() {
 		for _, value := range cols {
 			table += "<th class='text-center'>" + value + "</th>"
 		}
-		// once you've added all the columns in, close the header
 		table += "</thead><tbody>"
-		// declare all your RETURNED columns here
 		var name string
 		for rows.Next() {
-			// assign each of them, in order, to the parameters of rows.Scan.
-			// preface each variable with &
 			rows.Scan(&name)
 			// can't combine ints and strings in Go. Use strconv.Itoa(int) instead
 			table += "<tr><td>" + name + "</td></tr>"
@@ -95,7 +89,6 @@ func main() {
 		
 		rows, err := db.Query("SELECT trailName AS Trails FROM trail JOIN favorite ON trail.trailId = favorite.trailId JOIN usr ON favorite.username = usr.username WHERE usr.username = 'rdiaz0'")
 		if err != nil {
-			// careful about returning errors to the user!
 			c.AbortWithError(http.StatusInternalServerError, err)
 			return
 		}
@@ -108,7 +101,6 @@ func main() {
 		for _, value := range cols {
 			table += "<th class='text-center'>" + value + "</th>"
 		}
-		// once you've added all the columns in, close the header
 		table += "</thead><tbody>"
 		// columns
 		var name string
@@ -116,43 +108,10 @@ func main() {
 			rows.Scan(&name)
 			table += "<tr><td>" + name + "</td></tr>" 
 		}
-		// finally, close out the body and table
 		table += "</tbody></table>"
 		c.Data(http.StatusOK, "text/html", []byte(table))
 	})
-/*
-	router.GET("/query3", func(c *gin.Context) {
-		table := "<table class='table'><thead><tr>"
-		// put your query here
-		rows, err := db.Query("SELECT artist.firstName, artist.lastName FROM artist WHERE artist.artistID IN (SELECT album.artistId FROM album WHERE genre = 'Country')") // <--- EDIT THIS LINE
-		if err != nil {
-			// careful about returning errors to the user!
-			c.AbortWithError(http.StatusInternalServerError, err)
-			return
-		}
-		// foreach loop over rows.Columns, using value
-		cols, _ := rows.Columns()
-		if len(cols) == 0 {
-			c.AbortWithStatus(http.StatusNoContent)
-			return
-		}
-		for _, value := range cols {
-			table += "<th class='text-center'>" + value + "</th>"
-		}
-		// once you've added all the columns in, close the header
-		table += "</thead><tbody>"
-		// columns
-		var fName string
-		var lName string
-		for rows.Next() {
-			rows.Scan(&fName, &lName) // put columns here prefaced with &
-			table += "<tr><td>" + fName + "</td><td>" + lName + "</td></tr>" // <--- EDIT THIS LINE
-		}
-		// finally, close out the body and table
-		table += "</tbody></table>"
-		c.Data(http.StatusOK, "text/html", []byte(table))
-	})
-*/
+
 	router.POST("/submit", func(c *gin.Context) {
 		description := c.PostForm("description")
 		rating := c.PostForm("rating")
@@ -188,7 +147,6 @@ func main() {
 		for _, value := range cols {
 			table += "<th class='text-center'>" + value + "</th>"
 		}
-		// once you've added all the columns in, close the header
 		table += "</thead><tbody>"
 		// columnss
 		var name string
@@ -196,7 +154,6 @@ func main() {
 			rows.Scan(&name)
 			table += "<tr><td>" + name + "</td></tr>" 
 		}
-		// finally, close out the body and table
 		table += "</tbody></table>"
 		c.Data(http.StatusOK, "text/html", []byte(table))
 	})
