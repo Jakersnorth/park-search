@@ -1,0 +1,56 @@
+INSERT INTO Terrain VALUES 
+  ('arctic tundra', 'Arctic tundra is located in the northern hemisphere, encircling the north pole and extending south to the coniferous forests of the taiga. The arctic is known for its cold, desert-like conditions. The growing season ranges from 50 to 60 days. The average winter temperature is -34° C (-30° F), but the average summer temperature is 3-12° C (37-54° F) which enables this biome to sustain life. Rainfall may vary in different regions of the arctic. Yearly precipitation, including melting snow, is 15 to 25 cm (6 to 10 inches).'),
+  ('alpine tundra', 'Alpine tundra is located on mountains throughout the world at high altitude where trees cannot grow. The growing season is approximately 180 days. The nighttime temperature is usually below freezing.'),
+  ('tropical forest', 'Tropical forests are characterized by the greatest diversity of species. They occur near the equator, within the area bounded by latitudes 23.5 degrees N and 23.5 degrees S. One of the major characteristics of tropical forests is their distinct seasonality: winter is absent, and only two seasons are present (rainy and dry). The length of daylight is 12 hours and varies little.'),
+  ('temperate forest', 'Temperate forests occur in eastern North America, northeastern Asia, and western and central Europe. Well-defined seasons with a distinct winter characterize this forest biome. Moderate climate and a growing season of 140-200 days during 4-6 frost-free months distinguish temperate forests.'),
+  ('boreal forest', 'Boreal forests, or taiga, represent the largest terrestial biome. Occuring between 50 and 60 degrees north latitudes, boreal forests can be found in the broad belt of Eurasia and North America: two-thirds in Siberia with the rest in Scandinavia, Alaska, and Canada. Seasons are divided into short, moist, and moderately warm summers and long, cold, and dry winters. The length of the growing season in boreal forests is 130 days.'),
+  ('savanna', 'Savanna is grassland with scattered individual trees. Savannas of one sort or another cover almost half the surface of Africa (about five million square miles, generally central Africa) and large areas of Australia, South America, and India. Climate is the most important factor in creating a savanna. Savannas are always found in warm or hot climates where the annual rainfall is from about 50.8 to 127 cm (20-50 inches) per year. It is crucial that the rainfall is concentrated in six or eight months of the year, followed by a long period of drought when fires can occur.'),
+  ('temperate grassland', 'Temperate grasslands are characterized as having grasses as the dominant vegetation. Trees and large shrubs are absent. Temperatures vary more from summer to winter, and the amount of rainfall is less in temperate grasslands than in savannas.'),
+  ('desert', 'The seasons are generally warm throughout the year and very hot in the summer. The winters usually bring little rainfall. Temperatures exhibit daily extremes because the atmosphere contains little humidity to block the Sun’s rays. Desert surfaces receive a little more than twice the solar radiation received by humid regions and lose almost twice as much heat at night. Many mean annual temperatures range from 20-25° C. The extreme maximum ranges from 43.5-49° C. Minimum temperatures sometimes drop to -18° C.');
+
+
+INSERT INTO Usr VALUES
+  ('rdiaz0', 'test', 'Richard', 'Diaz', 'rdiaz@mit.edu', null),
+  ('tsimmons1', 'test', 'Theresa', 'Simmons', 'tsimmons1@amazon.com', null),
+  ('randrews2', 'test', null, null, 'randrews2@mozilla.com', null),
+  ('ibrown', 'test', 'Irene', 'Brown', 'ibrown@eepurl.com', null),
+  ('jknight9', 'test', 'Jack', 'Knight', 'jknight9@harvard.edu', null);
+
+INSERT INTO Park (name, size) VALUES
+  ('Rattlesnake Mountain', 610.00),
+  ('Washington Park Arboretum', .39),
+  ('Gas Works Park', .03),
+  ('Discovery Park', .83),
+  ('Okanogan-Wenatchee National Forest', 2717.00),
+  ('Golden Gardens Park', .14 ),
+  ('Burke-Gilman Park', 0.01),
+  ('Ravenna Park', 0.02),
+  ('Gene Coulon Memorial Beach', 0.09),
+  ('Mount Rainier National Park', 369.3); 
+  
+INSERT INTO Trail (trailName, length, description, difficulty, eleGain, biome) VALUES
+	(5, 'Lake Serene (Bridal Veil Falls)', 8.2, 'A beautiful waterfall flows out of Lake Serene and cascades below the rugged east wall of Mount Index at the end ofa trail on the west side of Bridal Veil Creek. Take time to see and enjoy a stunning view of Bridal Veil Falls and climb flights of steps paralleling the falls.', 4, 2000, 'boreal forest'),
+	(null, 'Mailbox Peak', 9.4, 'The old trail up Mailbox Peak was the stuff of legend. It inspired potential Rainier climbers, challenged adventurous day hikers, and occasionally Mother Nature used the trail to bite back.', 5, 4000, 'boreal forest');
+    
+INSERT INTO Trailhead (trailId, driveDir) VALUES
+  (1, 'Take Highway 2 to Mount Index Road and follow signs'),
+  (2, 'Take exit-34 from I-90 and turn right on Middle Fork Road');
+    
+INSERT INTO Location (parkId, trailHeadId, latitude, longitude) VALUES
+  (null, 1, 47.8090, -121.5738),
+  (null, 2, 47.4675, -121.6748),
+  (1, null, 47.455311, -121.798218),
+  (2, null, 47.639592, -122.294545),
+  (3, null, 47.646374, -122.335518),
+  (4, null, 47.655015, -122.410190),
+  (5, null, 47.847503, -120.714638),
+  (6, null, 47.689776, -122.400190),
+  (7, null, 47.667463, -122.280915),
+  (8, null, 47.670829, -122.305670),
+  (9, null, 47.503426, -122.201961),
+  (10, null, 46.880065, -121.727506);
+
+INSERT INTO Feature VALUES
+  ('Wildflowers/Meadows', 'Meadows often host a multitude of wildlife, providing areas for courtship displays, nesting, food gathering and sometimes sheltering.'),
+  ('River', 'A natural flowing watercourse, usually freshwater, flowing towards an ocean, sea, lake or another river.'),
+  ('Mountain Views', 'A large landform that stretches above the surrounding land in a limited area, usually in the form of a peak.');

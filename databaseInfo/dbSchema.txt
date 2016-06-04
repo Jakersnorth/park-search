@@ -1,0 +1,108 @@
+CREATE TABLE Usr (
+  username varchar(100) PRIMARY KEY,
+  password varchar(64) NOT NULL,
+  fname varchar(100),
+  lname varchar(100),
+  email varchar(200) NOT NULL,
+  profilepic text);
+
+CREATE TABLE Park (
+  parkId serial PRIMARY KEY,
+  name varchar(300) NOT NULL,
+  size decimal(6,2) CHECK (size > 0));
+
+CREATE TABLE Feature (
+  featureName varchar(100) PRIMARY KEY,
+  detail text NOT NULL);
+
+CREATE TABLE Terrain (
+  biome varchar(100) PRIMARY KEY,
+  description text NOT NULL);
+
+CREATE TABLE Trail (
+  trailId serial PRIMARY KEY,
+  parkId int REFERENCES Park(parkId) ON DELETE CASCADE,
+  trailName varchar(300) NOT NULL,
+  length decimal(4,2) CHECK (length > 0) NOT NULL,
+  description text,
+  difficulty int CHECK (difficulty >= 0 AND difficulty <=5),
+  eleGain int,
+  biome varchar(100) REFERENCES Terrain(biome) ON DELETE SET NULL NOT NULL);
+
+CREATE TABLE Review (
+  reviewId serial PRIMARY KEY,
+  username varchar(100) REFERENCES Usr(username) ON DELETE CASCADE NOT NULL,
+  parkId int REFERENCES Park(parkId) ON DELETE CASCADE,
+  trailId int REFERENCES Trail(trailId) ON DELETE CASCADE,
+  postDate date NOT NULL,
+  detail text,
+  rating int CHECK (rating >= 1 AND rating <= 10),
+  warning text);  
+
+CREATE TABLE Trailhead (
+  trailheadId serial PRIMARY KEY,
+  trailId int REFERENCES Trail(trailId) ON DELETE CASCADE NOT NULL,
+  driveDir text);
+
+CREATE TABLE FeaturePlace (
+  featurePlace serial PRIMARY KEY,
+  featureName varchar(100) REFERENCES Feature(featureName) ON DELETE CASCADE NOT NULL,
+  parkId int REFERENCES Park(parkId) ON DELETE CASCADE,
+  trailId int REFERENCES Trail(trailId) ON DELETE CASCADE);
+
+CREATE TABLE Location (
+  locationId serial PRIMARY KEY,
+  parkId int REFERENCES Park(parkId) ON DELETE CASCADE,
+  trailheadId int REFERENCES Trailhead(trailheadId) ON DELETE CASCADE,
+  latitude decimal(18,12) NOT NULL,
+  longitude decimal(18,12) NOT NULL);
+
+CREATE TABLE Favorite (
+  favoriteId serial PRIMARY KEY,
+  username varchar(100) REFERENCES Usr(username) ON DELETE CASCADE NOT NULL,
+  parkId int REFERENCES Park(parkId) ON DELETE CASCADE,
+  trailId int REFERENCES Trail(trailId) ON DELETE CASCADE);
+
+CREATE TABLE Picture (
+  pictureId serial PRIMARY KEY,
+  reviewId int REFERENCES Review(reviewId) ON DELETE CASCADE,
+  parkId int REFERENCES Park(parkId) ON DELETE CASCADE,
+  metadata varchar(250),
+  url text NOT NULL);
+
+CREATE INDEX usersFavorites ON favorite(username);
+
+CREATE INDEX trailsByPark ON trail(parkId);
+
+CREATE FUNCTION addNewFavorite (username varchar(100), parkId int, trailId int) 
+RETURNS void AS $$
+BEGIN 
+if(parkId IS NULL AND trailId IS NOT NULL)
+THEN 
+INSERT INTO favorite (username, trailId) VALUES (username, trailId);
+END IF;
+if(trailId IS NULL AND parkId IS NOT NULL)
+THEN
+INSERT INTO favorite(username, parkId) VALUES (username, parkId);
+END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION addNewPark(parkName varchar(300), parkSize decimal(4,2), latitude decimal(18,12), longitude decimal(18,12))
+RETURNS void AS $$
+BEGIN
+INSERT INTO park (name, size) VALUES (parkName, parkSize);
+INSERT INTO location (parkId, latitude, longitude) VALUES ((SELECT max(parkId) FROM park WHERE park.name = parkName AND park.size = parkSize), latitude, longitude);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION addNewTrailhead(nTrailId int, drivDir text, latitude decimal(18,12), longitude decimal(18,12))
+RETURNS void AS $$
+BEGIN
+INSERT INTO trailhead (trailId, driveDir) VALUES (nTrailId, drivDir);
+INSERT INTO location (trailheadId, latitude, longitude) VALUES ((SELECT max(trailheadId) FROM trailhead WHERE trailhead.trailId = nTrailId), latitude, longitude);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE VIEW latestParkReviews AS
+SELECT park.name, review.username, review.detail, review.rating FROM park NATURAL JOIN review WHERE review.reviewId IN (SELECT max(reviewId) FROM review GROUP BY parkId);
