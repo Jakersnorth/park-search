@@ -92,7 +92,7 @@ func main() {
 
 	router.GET("/query2", func(c *gin.Context) {
 		table := "<table class='table'><thead><tr>"
-		// put your query here
+		
 		rows, err := db.Query("SELECT trailName AS Trails FROM trail JOIN favorite ON trail.trailId = favorite.trailId JOIN usr ON favorite.username = usr.username WHERE usr.username = 'rdiaz0'")
 		if err != nil {
 			// careful about returning errors to the user!
@@ -113,7 +113,7 @@ func main() {
 		// columns
 		var name string
 		for rows.Next() {
-			rows.Scan(&name) // put columns here prefaced with &
+			rows.Scan(&name)
 			table += "<tr><td>" + name + "</td></tr>" 
 		}
 		// finally, close out the body and table
@@ -154,19 +154,51 @@ func main() {
 	})
 */
 	router.POST("/submit", func(c *gin.Context) {
-		// this is meant for SQL injection examples ONLY.
-		// Don't copy this for use in an actual environment, even if you do stop SQL injection
 		description := c.PostForm("description")
 		rating := c.PostForm("rating")
 		warnings := c.PostForm("warnings")
 
-		stmt, err := db.Prepare("INSERT INTO review (username, parkId, postdate, detail, rating, warning) VALUES ('rdiaz0', 3, '2016-06-01', $1, $2, $3);")
+		stmt, err := db.Prepare("INSERT INTO review (username, parkId, postdate, detail, rating, warning) VALUES ('rdiaz0', 3, CURRENT_DATE, $1, $2, $3);")
 		res, err := stmt.Exec(description, rating, warnings)
 		if err != nil {
 			c.AbortWithError(http.StatusInternalServerError, err)
 			return
 		}
 		fmt.Println(res)
+
+	})
+
+	router.POST("/search", func(c *gin.Context) {
+		table := "<table class='table' id='currRes'><thead><tr>"
+		search := c.PostForm("searchTerm")
+
+		searchTerm := "%" + search + "%"
+
+		rows, err := db.Query("SELECT park.name AS results FROM park WHERE park.name LIKE $1", searchTerm)
+		if err != nil {
+			c.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
+
+		cols, _ := rows.Columns()
+		if len(cols) == 0 {
+			c.AbortWithStatus(http.StatusNoContent)
+			return
+		}
+		for _, value := range cols {
+			table += "<th class='text-center'>" + value + "</th>"
+		}
+		// once you've added all the columns in, close the header
+		table += "</thead><tbody>"
+		// columnss
+		var name string
+		for rows.Next() {
+			rows.Scan(&name)
+			table += "<tr><td>" + name + "</td></tr>" 
+		}
+		// finally, close out the body and table
+		table += "</tbody></table>"
+		c.Data(http.StatusOK, "text/html", []byte(table))
 	})
 
 	// NO code should go after this line. it won't ever reach that point

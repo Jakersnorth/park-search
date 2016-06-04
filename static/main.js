@@ -24,4 +24,12 @@ $(function(){
         });
     });
 
+    $("#search").click(function(){
+      $("#currRes").remove();
+      $.post("/search", {searchTerm: $("#searchTerm").val()})
+        .done(function(data){
+            $("#searchResults").append(data);
+        });
+    });
+
 })

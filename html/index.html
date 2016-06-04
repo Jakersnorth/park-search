@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>Park Search</title>
+
+        <link rel="icon" href="img/treeIcon.png">
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
         <link rel="stylesheet" href="static/main.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
@@ -20,12 +23,12 @@
             <div class="row">
                 <div class="col-md-6" id="firstQuery">
                     <p>
-                        Your favorite parks
+                        Your favorite
                     </p>
                 </div>
                 <div class="col-md-6" id="secondQuery">
                     <p>
-                        Your favorite trails
+                        Your favorite
                     </p>
                 </div>
             </div>
@@ -37,6 +40,11 @@
           <span>Warnings: <input type="text" id="warnings"/></span>
           <button id="submit">Submit</button>
           <span id="result"></span>
+        </div>
+        <div class="search">
+            <span>Search for a park: <input type="text" id="searchTerm"/></span>
+            <button id="search">Search</button>
+            <div id="searchResults"></div>
         </div>
     </body>
 </html>
